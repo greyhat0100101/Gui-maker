@@ -1,88 +1,96 @@
-openapi: 3.0.1
+openapi: 3.1.0
 info:
   title: GUI Maker API
   description: API para crear y personalizar GUIs de varios tamaños y categorías.
   version: 1.0.0
+servers:
+  - url: https://api.guimaker.com/v1
+    description: Servidor principal de la API GUI Maker
 paths:
   /guis:
     get:
       summary: Listar todos los GUIs
+      operationId: listGUIs
       responses:
-        '200':
+        "200":
           description: Lista de GUIs
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/GUI'
+                  $ref: "#/components/schemas/GUI"
     post:
       summary: Crear un nuevo GUI
+      operationId: createGUI
       requestBody:
         description: Parámetros para crear un nuevo GUI
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateGUI'
+              $ref: "#/components/schemas/CreateGUI"
       responses:
-        '200':
+        "200":
           description: GUI creado exitosamente
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GUI'
+                $ref: "#/components/schemas/GUI"
   /guis/{id}:
     get:
       summary: Obtener detalles de un GUI específico
+      operationId: getGUIDetails
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-            example: "abc123"
+            example: abc123
       responses:
-        '200':
+        "200":
           description: Detalles del GUI recuperados exitosamente
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GUI'
+                $ref: "#/components/schemas/GUI"
     put:
       summary: Actualizar un GUI específico
+      operationId: updateGUI
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-            example: "abc123"
+            example: abc123
       requestBody:
         description: Parámetros para actualizar el GUI
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateGUI'
+              $ref: "#/components/schemas/CreateGUI"
       responses:
-        '200':
+        "200":
           description: GUI actualizado exitosamente
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GUI'
+                $ref: "#/components/schemas/GUI"
     delete:
       summary: Eliminar un GUI específico
+      operationId: deleteGUI
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
-            example: "abc123"
+            example: abc123
       responses:
-        '204':
+        "204":
           description: GUI eliminado exitosamente
 components:
   schemas:
@@ -92,22 +100,40 @@ components:
         name:
           type: string
           description: Nombre del GUI
-          example: "MyCustomGUI"
+          example: MyCustomGUI
         size:
           type: string
           description: Tamaño del GUI
-          enum: [1920x1080, 1920x100, 1920x200, 1920x300, 1920x400, 1920x500, 100x1000, 200x1000, 300x1000, 400x1000, 500x1000]
-          example: "1920x1080"
+          enum:
+            - 1920x1080
+            - 1920x100
+            - 1920x200
+            - 1920x300
+            - 1920x400
+            - 1920x500
+            - 100x1000
+            - 200x1000
+            - 300x1000
+            - 400x1000
+            - 500x1000
+          example: 1920x1080
         position:
           type: string
           description: Posición del GUI en la pantalla
-          enum: [Top, Bottom, Left, Right]
-          example: "Top"
+          enum:
+            - Top
+            - Bottom
+            - Left
+            - Right
+          example: Top
         category:
           type: string
           description: Categoría del GUI
-          enum: [taskbar, settings, pcInfo]
-          example: "taskbar"
+          enum:
+            - taskbar
+            - settings
+            - pcInfo
+          example: taskbar
         options:
           type: object
           description: Opciones adicionales para personalizar el GUI
@@ -119,7 +145,7 @@ components:
             font:
               type: string
               description: Selección de fuente
-              example: "Arial"
+              example: Arial
             fontColor:
               type: string
               description: Selección de color de fuente
@@ -162,16 +188,22 @@ components:
               properties:
                 buttonSize:
                   type: string
-                  enum: [small, medium, large]
-                  example: "medium"
+                  enum:
+                    - small
+                    - medium
+                    - large
+                  example: medium
                 buttonAction:
                   type: string
-                  enum: [openFile, executeFile, openWebsite]
-                  example: "openFile"
+                  enum:
+                    - openFile
+                    - executeFile
+                    - openWebsite
+                  example: openFile
                 fileExtension:
                   type: string
                   description: Extensión del archivo a abrir o ejecutar
-                  example: ".py"
+                  example: .py
             textDisplay:
               type: object
               description: Opciones para mostrar texto
@@ -191,10 +223,10 @@ components:
               properties:
                 websiteURL:
                   type: string
-                  example: "https://example.com"
+                  example: https://example.com
                 shortcutName:
                   type: string
-                  example: "Example"
+                  example: Example
     GUI:
       type: object
       properties:
