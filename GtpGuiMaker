@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: GUI Maker API
-  description: API para crear y personalizar GUIs de varios tamaños y categorías.
+  description: API para crear y personalizar GUIs de varios tamaños y categorías, específicamente para su uso en aplicaciones Python.
   version: 1.0.0
 servers:
   - url: https://api.guimaker.com/v1
@@ -21,8 +21,9 @@ paths:
                 items:
                   $ref: "#/components/schemas/GUI"
     post:
-      summary: Crear un nuevo GUI
-      operationId: createGUI
+      summary: Crear un nuevo GUI para una aplicación Python
+      description: Crear un GUI específico para su uso en una aplicación Python con Tkinter.
+      operationId: createPythonGUI
       requestBody:
         description: Parámetros para crear un nuevo GUI
         required: true
@@ -116,7 +117,7 @@ components:
             - 300x1000
             - 400x1000
             - 500x1000
-          example: 1920x1080
+          example: 1920x100
         position:
           type: string
           description: Posición del GUI en la pantalla
@@ -125,7 +126,7 @@ components:
             - Bottom
             - Left
             - Right
-          example: Top
+          example: Bottom
         category:
           type: string
           description: Categoría del GUI
@@ -133,61 +134,22 @@ components:
             - taskbar
             - settings
             - pcInfo
-          example: taskbar
+          example: pcInfo
         options:
           type: object
           description: Opciones adicionales para personalizar el GUI
           properties:
-            darkMode:
+            showWirelessInfo:
               type: boolean
-              description: Habilitar modo oscuro
+              description: Mostrar información de conexión inalámbrica
               example: true
-            font:
-              type: string
-              description: Selección de fuente
-              example: Arial
-            fontColor:
-              type: string
-              description: Selección de color de fuente
-              example: "#FFFFFF"
-            background:
-              type: string
-              format: binary
-              description: Subir imagen de fondo
-            pcSettings:
-              type: object
-              description: Opciones de configuración de PC
-              properties:
-                showPCInfo:
-                  type: boolean
-                  example: true
-                showCPUInfo:
-                  type: boolean
-                  example: true
-                showGPUInfo:
-                  type: boolean
-                  example: true
-                showTempLoad:
-                  type: boolean
-                  example: true
-                showWirelessInfo:
-                  type: boolean
-                  example: true
-                showDriveInfo:
-                  type: boolean
-                  example: true
-                enableSearchDrive:
-                  type: boolean
-                  example: true
-                showAllHardDrives:
-                  type: boolean
-                  example: true
             buttonOptions:
               type: object
               description: Opciones para botones
               properties:
                 buttonSize:
                   type: string
+                  description: Tamaño del botón
                   enum:
                     - small
                     - medium
@@ -195,38 +157,16 @@ components:
                   example: medium
                 buttonAction:
                   type: string
+                  description: Acción del botón
                   enum:
                     - openFile
                     - executeFile
                     - openWebsite
-                  example: openFile
-                fileExtension:
-                  type: string
-                  description: Extensión del archivo a abrir o ejecutar
-                  example: .py
-            textDisplay:
-              type: object
-              description: Opciones para mostrar texto
-              properties:
-                enableTextEditor:
-                  type: boolean
-                  example: true
-                enableHighlightOptions:
-                  type: boolean
-                  example: true
-                createMenu:
-                  type: boolean
-                  example: true
-            loadHtml:
-              type: object
-              description: Opciones para cargar HTML
-              properties:
+                  example: openWebsite
                 websiteURL:
                   type: string
+                  description: URL del sitio web que se abrirá con el botón
                   example: https://example.com
-                shortcutName:
-                  type: string
-                  example: Example
     GUI:
       type: object
       properties:
