@@ -1,0 +1,212 @@
+openapi: 3.0.1
+info:
+  title: GUI Maker API
+  description: API para crear y personalizar GUIs de varios tamaños y categorías.
+  version: 1.0.0
+paths:
+  /guis:
+    get:
+      summary: Listar todos los GUIs
+      responses:
+        '200':
+          description: Lista de GUIs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GUI'
+    post:
+      summary: Crear un nuevo GUI
+      requestBody:
+        description: Parámetros para crear un nuevo GUI
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGUI'
+      responses:
+        '200':
+          description: GUI creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GUI'
+  /guis/{id}:
+    get:
+      summary: Obtener detalles de un GUI específico
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "abc123"
+      responses:
+        '200':
+          description: Detalles del GUI recuperados exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GUI'
+    put:
+      summary: Actualizar un GUI específico
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "abc123"
+      requestBody:
+        description: Parámetros para actualizar el GUI
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGUI'
+      responses:
+        '200':
+          description: GUI actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GUI'
+    delete:
+      summary: Eliminar un GUI específico
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "abc123"
+      responses:
+        '204':
+          description: GUI eliminado exitosamente
+components:
+  schemas:
+    CreateGUI:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Nombre del GUI
+          example: "MyCustomGUI"
+        size:
+          type: string
+          description: Tamaño del GUI
+          enum: [1920x1080, 1920x100, 1920x200, 1920x300, 1920x400, 1920x500, 100x1000, 200x1000, 300x1000, 400x1000, 500x1000]
+          example: "1920x1080"
+        position:
+          type: string
+          description: Posición del GUI en la pantalla
+          enum: [Top, Bottom, Left, Right]
+          example: "Top"
+        category:
+          type: string
+          description: Categoría del GUI
+          enum: [taskbar, settings, pcInfo]
+          example: "taskbar"
+        options:
+          type: object
+          description: Opciones adicionales para personalizar el GUI
+          properties:
+            darkMode:
+              type: boolean
+              description: Habilitar modo oscuro
+              example: true
+            font:
+              type: string
+              description: Selección de fuente
+              example: "Arial"
+            fontColor:
+              type: string
+              description: Selección de color de fuente
+              example: "#FFFFFF"
+            background:
+              type: string
+              format: binary
+              description: Subir imagen de fondo
+            pcSettings:
+              type: object
+              description: Opciones de configuración de PC
+              properties:
+                showPCInfo:
+                  type: boolean
+                  example: true
+                showCPUInfo:
+                  type: boolean
+                  example: true
+                showGPUInfo:
+                  type: boolean
+                  example: true
+                showTempLoad:
+                  type: boolean
+                  example: true
+                showWirelessInfo:
+                  type: boolean
+                  example: true
+                showDriveInfo:
+                  type: boolean
+                  example: true
+                enableSearchDrive:
+                  type: boolean
+                  example: true
+                showAllHardDrives:
+                  type: boolean
+                  example: true
+            buttonOptions:
+              type: object
+              description: Opciones para botones
+              properties:
+                buttonSize:
+                  type: string
+                  enum: [small, medium, large]
+                  example: "medium"
+                buttonAction:
+                  type: string
+                  enum: [openFile, executeFile, openWebsite]
+                  example: "openFile"
+                fileExtension:
+                  type: string
+                  description: Extensión del archivo a abrir o ejecutar
+                  example: ".py"
+            textDisplay:
+              type: object
+              description: Opciones para mostrar texto
+              properties:
+                enableTextEditor:
+                  type: boolean
+                  example: true
+                enableHighlightOptions:
+                  type: boolean
+                  example: true
+                createMenu:
+                  type: boolean
+                  example: true
+            loadHtml:
+              type: object
+              description: Opciones para cargar HTML
+              properties:
+                websiteURL:
+                  type: string
+                  example: "https://example.com"
+                shortcutName:
+                  type: string
+                  example: "Example"
+    GUI:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        size:
+          type: string
+        position:
+          type: string
+        category:
+          type: string
+        options:
+          type: object
